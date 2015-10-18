@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="camel">images/camelsmall.jpg</file>
+        <file alias="gold">images/goldsmall2.jpg</file>
+        <file alias="jewels">images/jewelssmall.jpg</file>
+        <file alias="leather">images/leathersmall.jpg</file>
+        <file alias="silk">images/silksmall.jpg</file>
+        <file alias="silver">images/silversmall.jpg</file>
+        <file alias="spices">images/spicessmall.jpg</file>
+        <file alias="blank">images/blank.jpg</file>
+        <file alias="deck">images/deck.png</file>
+    </qresource>
+</RCC>
