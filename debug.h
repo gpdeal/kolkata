@@ -1,0 +1,11 @@
+/*
+
+  prevent taking single card if hand too big
+  implement trade cards
+  implement take camels
+  implement sell cards
+
+
+
+
+*/

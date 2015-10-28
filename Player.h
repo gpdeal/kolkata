@@ -1,16 +1,20 @@
 #include <list>
 #include "goods_t.h"
 #pragma once
+class Card;
 
 class Player {
 public:
    Player(void);
    ~Player(void);
 
-   std::list<goods_t> *getHand();
+   std::list<Card *> *getHand();
+   void addCamels(int camels);
+   void addCard(Card *card);
+
 
 private:
-   std::list<goods_t> *hand;
+   std::list<Card *> *hand;
 
    int herd;
    int points;

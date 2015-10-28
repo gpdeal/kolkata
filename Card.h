@@ -14,11 +14,14 @@ public:
    void setLabel(ClickableLabel *);
    void setSelected(bool);
    bool getSelected();
+   bool isConnected();
+   void setConnected(bool);
 
 private:
    goods_t type;
    ClickableLabel *label;
    bool selected;
+   bool slotConnected;
 };
 
 #endif

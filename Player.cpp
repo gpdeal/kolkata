@@ -2,7 +2,7 @@
 
 
 Player::Player(void) {
-   hand = new std::list<goods_t>;
+   hand = new std::list<Card *>;
 
    herd = 0;
    points = 0;
@@ -16,6 +16,18 @@ Player::~Player(void) {
 }
 
 
-std::list<goods_t>* Player::getHand() {
+std::list<Card *> *Player::getHand() {
     return hand;
 }
+
+
+void Player::addCamels(int camels) {
+    herd += camels;
+}
+
+
+void Player::addCard(Card *card) {
+    hand->push_front(card);
+}
+
+

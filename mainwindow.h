@@ -28,20 +28,20 @@ private slots:
 
     void labelClicked();
 
-    void testClicked();
 
 
+    void on_take_single_clicked();
 
 private:
     Ui::MainWindow *ui;
 
     int players;
     Game *gm;
+    Player *currentPlayer;
 
     QLabel *deckLabel;
     QLabel *deckNumber;
 
-    int currentPlayer;
     int selectedCards;
 
     bool selectingCardsFlag;

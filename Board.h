@@ -5,6 +5,7 @@
 #include <iostream>  // debug statements
 #include "goods_t.h"
 #include "Card.h"
+#include <ctime>
 
 
 #pragma once

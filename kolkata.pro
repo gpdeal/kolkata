@@ -26,7 +26,8 @@ HEADERS  += mainwindow.h \
     Card.h \
     Game.h \
     goods_t.h \
-    clickablelabel.h
+    clickablelabel.h \
+    debug.h
 
 FORMS    += mainwindow.ui
 

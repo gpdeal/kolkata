@@ -25,10 +25,6 @@ int Board::getDeckSize() {
     return deck->size();
 }
 
-//int Board::getCamels() {
-//    return camels;
-//}
-
 
 Card ** Board::getMarket(){
     return market;
@@ -154,13 +150,10 @@ Card * Board::createCard(goods_t type) {
 
 void Board::shuffle() {
 
-    for (std::list<Card*>::iterator deckIt = deck->begin();
-         deckIt != deck->end(); deckIt++) {
-    }
-
     // copy to vector to apply random_shuffle, then copy back
     std::vector<Card*> tempVec(deck->size());
     copy(deck->begin(), deck->end(), tempVec.begin());
+    srand(time(0));
     std::random_shuffle(tempVec.begin(), tempVec.end());
     delete deck;
     deck = new std::list<Card*>(tempVec.begin(), tempVec.end());

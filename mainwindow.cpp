@@ -54,14 +54,17 @@ void MainWindow::showMarket() {
         ClickableLabel *label = market[i]->getLabel();
         label->setGeometry(currentX, 270, 80, 120);
         market[i]->getLabel()->show();
-        connect(label, SIGNAL(clicked()), this, SLOT(labelClicked()));
+        if (!market[i]->isConnected()) {
+            connect(label, SIGNAL(clicked()), this, SLOT(labelClicked()));
+            market[i]->setConnected(true);
+        }
         currentX += 90;
     }
 }
 
 
 void MainWindow::showHand() {
-    list<goods_t> *handGoods = gm->p1->getHand();
+    list<Card *> *handGoods = gm->p1->getHand();
 
 
 
@@ -95,6 +98,7 @@ void MainWindow::on_startGame_clicked() {
     selectingCardsFlag = true;
 
     //currentPlayer = rand % 2;
+    currentPlayer = gm->p1; // TODO: make this random
 }
 
 
@@ -132,8 +136,25 @@ void MainWindow::labelClicked() {
     }
 }
 
-void MainWindow::testClicked() {
-    ClickableLabel *label = (ClickableLabel*) QObject::sender();
 
-    label->setPixmap(QPixmap(":/images/jewels"));
+void MainWindow::on_take_single_clicked() {
+    Card **market = gm->brd->getMarket();
+    int cardPos;
+    for (int i = 0; i < 5; i++) {
+        if (market[i]->getSelected()) {
+            cardPos = i;
+            break;
+        }
+    }
+    Card *card = gm->brd->takeCard(cardPos);
+    currentPlayer->addCard(card);
+    card->setSelected(false);
+    card->getLabel()->hide();
+
+    selectedCards = 0;
+    ui->take_single->setDisabled(true);
+    ui->trade_cards->setDisabled(true);
+
+    gm->brd->fillMarket();
+    showMarket();
 }

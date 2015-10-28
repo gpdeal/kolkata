@@ -1,7 +1,7 @@
 #include "Card.h"
 
 Card::Card(goods_t type) : type(type), label(nullptr),
-    selected(false) {
+    selected(false), slotConnected(false) {
 
 }
 
@@ -27,4 +27,12 @@ void Card::setSelected(bool isSelected) {
 
 bool Card::getSelected() {
     return selected;
+}
+
+bool Card::isConnected() {
+    return slotConnected;
+}
+
+void Card::setConnected(bool connected) {
+    slotConnected = connected;
 }
