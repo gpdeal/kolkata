@@ -1,8 +1,7 @@
 /*
 
-  prevent taking single card if hand too big
-  implement trade cards
   implement take camels
+  implement trade cards
   implement sell cards
 
 

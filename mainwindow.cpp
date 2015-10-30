@@ -43,10 +43,6 @@ void MainWindow::initializeDeckLabels() {
 }
 
 void MainWindow::showMarket() {
-    if (gm->brd->getDeckSize() == 0) {
-        // clear market
-    }
-
     Card** market = gm->brd->getMarket();
 
     int currentX = 120;    
@@ -64,10 +60,17 @@ void MainWindow::showMarket() {
 
 
 void MainWindow::showHand() {
-    list<Card *> *handGoods = gm->p1->getHand();
+    list<Card *> *hand = gm->p1->getHand();
 
+    int center = 310;
+    int offset = (hand->size() - 1) * -1;
 
-
+    for (auto handIt = hand->begin(); handIt != hand->end(); handIt++) {
+        ClickableLabel *label = (*handIt)->getLabel();
+        label->setGeometry(center + (offset * 45), 500, 80, 120);
+        label->show();
+        offset += 2;
+    }
 }
 
 
@@ -95,7 +98,7 @@ void MainWindow::on_startGame_clicked() {
 
     showMarket();
     selectedCards = 0;
-    selectingCardsFlag = true;
+    selectingMarketCards = true;
 
     //currentPlayer = rand % 2;
     currentPlayer = gm->p1; // TODO: make this random
@@ -105,40 +108,64 @@ void MainWindow::on_startGame_clicked() {
 
 void MainWindow::labelClicked() {
     ClickableLabel *sender = (ClickableLabel *) QObject::sender();
-    int marketPos = sender->getMarketPos();
-    Card** market = gm->brd->getMarket();
+    //int marketPos = sender->getMarketPos();
+    //Card** market = gm->brd->getMarket();
     Card *clickedCard = sender->getParentCard();
 
-    if (selectingCardsFlag && clickedCard->getType() != camel) {
-        if (clickedCard->getSelected()) {
-            QPoint topLeft = sender->geometry().topLeft();
-            topLeft.setY(topLeft.y() + 25);
-            sender->move(topLeft);
-            clickedCard->setSelected(false);
-            selectedCards--;
-        } else {
-            QPoint topLeft = sender->geometry().topLeft();
-            topLeft.setY(topLeft.y() - 25);
-            sender->move(topLeft);
-            clickedCard->setSelected(true);
+    if (selectingMarketCards && clickedCard->getType() != camel) {
+        bool selected = clickCard(clickedCard);
+        if (selected) {
             selectedCards++;
-        }
-        if (selectedCards == 0) {
-            ui->take_single->setDisabled(true);
-            ui->trade_cards->setDisabled(true);
-        } else if (selectedCards == 1) {
-            ui->take_single->setEnabled(true);
-            ui->trade_cards->setEnabled(true);
         } else {
-            ui->take_single->setDisabled(true);
-            ui->trade_cards->setEnabled(true);
+            selectedCards--;
         }
+
+        updateButtons();
+    } else if (selectingHandCards) {
+
+    }
+
+
+}
+
+
+bool MainWindow::clickCard(Card * card) {
+    QPoint topLeft = card->getLabel()->geometry().topLeft();
+    if (card->getSelected()) {
+        topLeft.setY(topLeft.y() + 25);
+        card->getLabel()->move(topLeft);
+        card->setSelected(false);
+        return false;
+    } else {
+        QPoint topLeft = card->getLabel()->geometry().topLeft();
+        topLeft.setY(topLeft.y() - 25);
+        card->getLabel()->move(topLeft);
+        card->setSelected(true);
+        return true;
+    }
+}
+
+
+void MainWindow::updateButtons() {
+    if (selectedCards == 0) {
+        ui->take_single->setDisabled(true);
+        ui->trade_cards->setDisabled(true);
+    } else if (selectedCards == 1) {
+        ui->trade_cards->setEnabled(true);
+        if (currentPlayer->getHand()->size() < 7) {
+            ui->take_single->setEnabled(true);
+        }
+    } else {
+        ui->take_single->setDisabled(true);
+        ui->trade_cards->setEnabled(true);
     }
 }
 
 
 void MainWindow::on_take_single_clicked() {
     Card **market = gm->brd->getMarket();
+
+    // find the selected card
     int cardPos;
     for (int i = 0; i < 5; i++) {
         if (market[i]->getSelected()) {
@@ -146,6 +173,7 @@ void MainWindow::on_take_single_clicked() {
             break;
         }
     }
+
     Card *card = gm->brd->takeCard(cardPos);
     currentPlayer->addCard(card);
     card->setSelected(false);
@@ -155,6 +183,30 @@ void MainWindow::on_take_single_clicked() {
     ui->take_single->setDisabled(true);
     ui->trade_cards->setDisabled(true);
 
+    gm->brd->fillMarket();
+    showMarket();
+    showHand();
+}
+
+void MainWindow::on_take_camels_clicked() {
+    Card **market = gm->brd->getMarket();
+    int camels = 0;
+
+    for (int i = 0; i < 5; i++) {
+        if (market[i]->getType() == camel) {
+            Card *card = gm->brd->takeCard(i);
+            delete card;
+            camels++;
+        }
+    }
+
+    currentPlayer->addCamels(camels);
+    char buf[2];
+    itoa(currentPlayer->getHerd(), buf, 10);
+    string text = "Herd: " + string(buf) + " camels";
+    if (currentPlayer == gm->p1) {
+        ui->p1HerdLabel->setText(QString::fromStdString(text));
+    }
     gm->brd->fillMarket();
     showMarket();
 }

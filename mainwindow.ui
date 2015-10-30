@@ -72,6 +72,19 @@
      </item>
     </layout>
    </widget>
+   <widget class="QLabel" name="p1HerdLabel">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>450</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Herd: 0 Camels</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

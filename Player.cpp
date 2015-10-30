@@ -20,6 +20,10 @@ std::list<Card *> *Player::getHand() {
     return hand;
 }
 
+int Player::getHerd() {
+    return herd;
+}
+
 
 void Player::addCamels(int camels) {
     herd += camels;

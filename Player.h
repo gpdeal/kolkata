@@ -11,6 +11,7 @@ public:
    std::list<Card *> *getHand();
    void addCamels(int camels);
    void addCard(Card *card);
+   int getHerd();
 
 
 private:

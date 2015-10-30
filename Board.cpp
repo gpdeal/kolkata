@@ -7,9 +7,12 @@ Board::Board(QWidget *parent) : parent(parent) {
 
     // prime market with 3 camels and 2 empty slots
     market = new Card* [5];
-    market[0] = createCard(camel);
-    market[1] = createCard(camel);
-    market[2] = createCard(camel);
+//    market[0] = createCard(camel);
+//    market[1] = createCard(camel);
+//    market[2] = createCard(camel);
+    market[0] = nullptr;
+    market[1] = nullptr;
+    market[2] = nullptr;
     market[3] = nullptr;
     market[4] = nullptr;
 

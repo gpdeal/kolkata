@@ -28,9 +28,13 @@ private slots:
 
     void labelClicked();
 
+    bool clickCard(Card *);
+    void updateButtons();
+
 
 
     void on_take_single_clicked();
+    void on_take_camels_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -44,7 +48,8 @@ private:
 
     int selectedCards;
 
-    bool selectingCardsFlag;
+    bool selectingMarketCards;
+    bool selectingHandCards;
 
     //Card** marketCards;
     //bool* marketClickedState;
